@@ -1,31 +1,32 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
+
 import { Tag } from "../../components/Tag";
 import { CartContext, CartTypes } from "../../contexts/CartContext";
+import { DataProps } from "../../types/data";
+
 import { CardContainer, DescriptionWrapper, CartWrapper, PriceWrapper, ActionsWrapper, ShopCartWrapper, CounterWrapper, TagWrapper, MinusIcon, PlusIcon, ShoppingCartIcon, CoffeeImage } from "./styles";
 
-export function Card({ id, name, image, description, tags, price, itemTotalPrice }: CartTypes) {
-  const { addItemsToCart } = useContext(CartContext)
-  const [amountItems, setAmountItens] = useState(1)
-
+export function Card({ id, name, image, description, tags, price }: DataProps, { itemTotalPrice }: CartTypes) {
+  const { addItemsToCart, amountItems, increaseAmount, decreaseAmount } = useContext(CartContext)
+  
   const handleAdd = () => {
     addItemsToCart({
       id: id,
       name: name,
       image: image,
+      tags: tags,
       amount: amountItems,
       price: price,
       itemTotalPrice: itemTotalPrice
     })
+  }  
+
+  const handleIncreaseAmount = () => {
+    increaseAmount(id)
   }
 
   const handleDecreaseAmount = () => {
-    const decreaseAmount = amountItems - 1
-    amountItems - 1 && setAmountItens(decreaseAmount)
-  }
-
-  const handleIncreaseAmount = () => {
-    const increaseAmount = amountItems + 1
-    setAmountItens(increaseAmount)
+    decreaseAmount(id)
   }
 
   return (
@@ -33,16 +34,16 @@ export function Card({ id, name, image, description, tags, price, itemTotalPrice
       <CoffeeImage>
         <img src={image} />
       </CoffeeImage>
-      {/* <TagWrapper>
+      <TagWrapper>
         {tags.map(item => {
           return (
             <Tag 
               key={item}
               type={item}
-              variant="tagCard" 
+              variant="tagCard"
             />
           )})}
-      </TagWrapper> */}
+      </TagWrapper>
       <DescriptionWrapper>
         <h4>{name}</h4>
         <p>{description}</p>

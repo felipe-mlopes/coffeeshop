@@ -1,9 +1,7 @@
 import styled from 'styled-components'
 
-export type TagVariant = 'tagCard' | 'tagFilter'
-
 interface TagVariantProps {
-  variant: TagVariant
+  variant: 'tagCard' | 'tagFilter'
 }
 
 export const TagContainer = styled.li<TagVariantProps>`
@@ -16,8 +14,8 @@ export const TagContainer = styled.li<TagVariantProps>`
   text-transform: uppercase;
   color: var(--yellow-dark);
 
-  border: 1px solid ${props => props.variant === 'tagFilter' ? 'var(--yellow)' : 'var(--yellow-light)' };
-  background: ${props => props.variant === 'tagFilter' ? 'var(--background)' : 'var(--yellow-light)' };
+  border: 1px solid ${props => (props.variant === 'tagFilter' && props.className === '' ) ? 'var(--yellow)' : 'var(--yellow-light)' };
+  background: ${props => (props.variant === 'tagFilter' && props.className === '' ) ? 'var(--background)' : 'var(--yellow-light)' };
   cursor: ${props => props.variant === 'tagFilter' ? 'pointer' : 'grab' };
   
   &:hover {
@@ -25,4 +23,5 @@ export const TagContainer = styled.li<TagVariantProps>`
       ? 'var(--background)' : 'var(--yellow-light)' };
       background: var(--yellow-light);
     }
+
 `

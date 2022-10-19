@@ -1,11 +1,44 @@
+import { useContext } from "react";
+
+import { data } from '../../data/data'
+import { Card } from "../../components/Card";
+import { Tag, TagProps, tagsName } from "../../components/Tag";
+import { CartContext } from "../../contexts/CartContext";
+
 import { Coffee, Package, ShoppingCart, Timer } from "phosphor-react";
 import Imagem from '../../assets/Imagem.svg'
 import { CoffeeWrapper, ContentWrapper, Intro, Item, Items, Menu, PackageWrapper, ShoppingCartWrapper, TimerWrapper, Title } from "./styles";
-import { data } from '../../data/data'
-import { Card } from "../../components/Card";
-import { Tag } from "../../components/Tag";
 
 export function Home() {
+  const { tagSelected } = useContext(CartContext)
+  const cards = data.map(item => {
+    return (
+      <Card 
+        key={item.id}
+        id={item.id}
+        name={item.name}
+        image={item.image}
+        description={item.description}
+        tags={item.tags}
+        price={item.price}
+      />
+    )
+  })
+  const cardsFiltered = data
+    .filter(item => item.tags.includes(tagSelected))
+    .map(item => {
+      return (
+        <Card 
+          key={item.id}
+          id={item.id}
+          name={item.name}
+          image={item.image}
+          description={item.description}
+          tags={item.tags}
+          price={item.price}
+        />
+      )
+    })
 
   return (
     <>
@@ -53,27 +86,19 @@ export function Home() {
         <header>
           <h3>Nossos cafés</h3>
           <ul>
-            <Tag type={"tradicional"} variant="tagFilter"/>
-            <Tag type={"especial"} variant="tagFilter" />
-            <Tag type={"com leite"} variant="tagFilter" />
-            <Tag type={"alcoólico"} variant="tagFilter" />
-            <Tag type={"gelado"} variant="tagFilter" />
+            {tagsName.map(item => {
+              return (
+                <Tag
+                  key={item} 
+                  type={item}
+                  variant='tagFilter'
+                />
+              )
+            })}
           </ul>
         </header>
         <main>
-          {data.map(item => {
-            return (
-              <Card 
-                key={item.id}
-                id={item.id}
-                name={item.name}
-                image={item.image}
-                description={item.description}
-                tags={item.tags}
-                price={item.price}
-              />
-            )
-          })}
+          { tagSelected === '' ? cards : cardsFiltered }
         </main>
       </Menu>
     </>

@@ -4,10 +4,18 @@ import { MinusIcon, PlusIcon } from "../Card/styles";
 import { ActionsCartWrapper, Counter, DeleteIcon, DetailsWrapper, ProductContainer } from "./styles";
 
 export function ProductSelected({ id, name, image, amount, itemTotalPrice }: CartTypes) {
-  const { deleteItemToCart } = useContext(CartContext)
+  const { deleteItemToCart, increaseAmount, decreaseAmount } = useContext(CartContext)
 
   const handleDelete = () => {
     deleteItemToCart(id)
+  }
+
+  const handleIncreaseAmount = () => {
+    increaseAmount(id)
+  }
+
+  const handleDecreaseAmount = () => {
+    decreaseAmount(id)
   }
 
   return (
@@ -17,9 +25,9 @@ export function ProductSelected({ id, name, image, amount, itemTotalPrice }: Car
         <p>{name}</p>
         <ActionsCartWrapper>
           <Counter>
-            <MinusIcon size={16} weight="bold" />
+            <MinusIcon size={16} weight="bold" onClick={handleIncreaseAmount} />
             <p>{amount}</p>
-            <PlusIcon size={16} weight="bold" />
+            <PlusIcon size={16} weight="bold" onClick={handleDecreaseAmount} />
           </Counter>
           <button className="delete-button" onClick={handleDelete} >
             <DeleteIcon size={16} />
