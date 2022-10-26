@@ -21,8 +21,8 @@ interface ItemsTypes {
   increaseAmount: (id: number) => void,
   decreaseAmount: (id: number) => void,
   filterTagSelected: (types: string[]) => void,
-  tagSelected: string,
-  setTagSelected: (type: string) => void
+  tagSelected: string[],
+  setTagSelected: (type: string[]) => void
 }
 
 export const CartContext = createContext({} as ItemsTypes)
@@ -30,7 +30,7 @@ export const CartContext = createContext({} as ItemsTypes)
 export function CartContextProvider({ children }: CartContextProps) {
   const [cart, setCart] = useState<CartTypes[]>([])
   const [amountItems, setAmountItems] = useState(1)
-  const [tagSelected, setTagSelected] = useState('')
+  const [tagSelected, setTagSelected] = useState([])
 
   async function addItemsToCart(data: CartTypes) {
     const itemAlreadyInCart = cart.find(item => item.id === data.id)
@@ -92,7 +92,7 @@ export function CartContextProvider({ children }: CartContextProps) {
   }
 
   function filterTagSelected(types: string[]) {
-    setTagSelected(types.toString())
+    setTagSelected(state => [...state, types])
   }
 
   return (

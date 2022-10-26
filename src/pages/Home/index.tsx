@@ -11,6 +11,7 @@ import { CoffeeWrapper, ContentWrapper, Intro, Item, Items, Menu, PackageWrapper
 
 export function Home() {
   const { tagSelected } = useContext(CartContext)
+
   const cards = data.map(item => {
     return (
       <Card 
@@ -24,21 +25,25 @@ export function Home() {
       />
     )
   })
+
   const cardsFiltered = data
-    .filter(item => item.tags.includes(tagSelected))
-    .map(item => {
-      return (
-        <Card 
-          key={item.id}
-          id={item.id}
-          name={item.name}
-          image={item.image}
-          description={item.description}
-          tags={item.tags}
-          price={item.price}
-        />
-      )
+    .filter(item => item.tags
+      .some(tag => tagSelected.includes(tag)))
+        .map(item => {
+          return (
+            <Card 
+              key={item.id}
+              id={item.id}
+              name={item.name}
+              image={item.image}
+              description={item.description}
+              tags={item.tags}
+              price={item.price}
+            />
+          )
     })
+
+    console.log(tagSelected)
 
   return (
     <>
@@ -98,7 +103,7 @@ export function Home() {
           </ul>
         </header>
         <main>
-          { tagSelected === '' ? cards : cardsFiltered }
+          { tagSelected.length === 0 ? cards : cardsFiltered }
         </main>
       </Menu>
     </>

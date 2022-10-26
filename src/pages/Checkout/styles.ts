@@ -57,7 +57,6 @@ export const AddressForm = styled(CheckoutHeader)`
       input {
         padding: .75rem;
         width: 100%;
-        /* flex: 1; */
         background: var(--base-input);
         border: 1px solid var(--base-button);
         border-radius: 4px;
@@ -78,11 +77,12 @@ export const AddressForm = styled(CheckoutHeader)`
 
       label {
         display: flex;
-        align-items: center;
+        flex-direction: column;
 
         span {
           position: relative;
-          left: -65px;
+          top: -29px;
+          left: 320px;
 
           font-style: italic;
           font-weight: 400;
@@ -140,8 +140,8 @@ export const Billing = styled(CheckoutHeader)`
     padding: 1rem 1.23rem 1rem 1rem;
     gap: .75rem;
 
-    background: var(--base-button);
-    border: 1px solid transparent;
+    background: ${props => props.className === 'actived' ? 'var(--purple-light)' : 'var(--base-button)'};
+    border: 1px solid ${props => props.className === 'actived' ? 'var(--purple)' : 'transparent'};
     border-radius: 6px;
 
     font-size: .75rem;
@@ -157,7 +157,7 @@ export const Billing = styled(CheckoutHeader)`
       color: var(--base-subtitle);
     }
 
-    ::selection, :active {
+    :active {
       background: var(--purple-light);
       border: 1px solid var(--purple);
     }

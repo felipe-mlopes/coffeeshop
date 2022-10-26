@@ -17,11 +17,17 @@ export function Tag({ type, variant }: TagProps) {
   const [isChecked, setIsChecked] = useState(false) 
 
   const handleFilterTagSelected = () => {
-    if(tagSelected === '' && isChecked === false && variant === 'tagFilter') {
+    const tagAlreadySelected = tagSelected.find(item => item === type)
+
+    if(!tagAlreadySelected && variant === 'tagFilter') {
       filterTagSelected(type)
       setIsChecked(!isChecked)
-    } else {
-      setTagSelected('')
+    } 
+    
+    const newTagsSelected = tagSelected.filter(item => item !== type)
+
+    if(tagAlreadySelected && isChecked === true) {
+      setTagSelected(newTagsSelected)
       setIsChecked(!isChecked)
     }
   }
