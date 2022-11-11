@@ -1,9 +1,9 @@
 import { useContext } from "react";
 
-import { data } from '../../data/data'
-import { Card } from "../../components/Card";
-import { Tag, TagProps, tagsName } from "../../components/Tag";
 import { CartContext } from "../../contexts/CartContext";
+import { data } from '../../data/data'
+import { Card } from "./components/Card";
+import { Tag, tagsName } from "./components/Tag";
 
 import { Coffee, Package, ShoppingCart, Timer } from "phosphor-react";
 import Imagem from '../../assets/Imagem.svg'
@@ -42,8 +42,6 @@ export function Home() {
             />
           )
     })
-
-    console.log(tagSelected)
 
   return (
     <>
@@ -103,7 +101,7 @@ export function Home() {
           </ul>
         </header>
         <main>
-          { tagSelected.length === 0 ? cards : cardsFiltered }
+          { tagSelected.length > 1 ? cardsFiltered : cards }
         </main>
       </Menu>
     </>

@@ -1,21 +1,24 @@
 import { useContext } from "react";
-import { CartContext, CartTypes } from "../../contexts/CartContext";
-import { MinusIcon, PlusIcon } from "../Card/styles";
+
+import { CartContext, CartTypes } from "../../../../contexts/CartContext";
+import { formatMoney } from "../../../../utils/formatMoney";
+
+import { MinusIcon, PlusIcon } from "../../../Home/components/Card/styles";
 import { ActionsCartWrapper, Counter, DeleteIcon, DetailsWrapper, ProductContainer } from "./styles";
 
 export function ProductSelected({ id, name, image, amount, itemTotalPrice }: CartTypes) {
-  const { deleteItemToCart, increaseAmount, decreaseAmount } = useContext(CartContext)
+  const { deleteItemToCart, increaseItemQuantity, decreaseItemQuantity } = useContext(CartContext)
 
   const handleDelete = () => {
     deleteItemToCart(id)
   }
 
-  const handleIncreaseAmount = () => {
-    increaseAmount(id)
+  const handleIncreaseQuantity = () => {
+    increaseItemQuantity(id)
   }
 
-  const handleDecreaseAmount = () => {
-    decreaseAmount(id)
+  const handleDecreaseQuantity = () => {
+    decreaseItemQuantity(id)
   }
 
   return (
@@ -25,9 +28,9 @@ export function ProductSelected({ id, name, image, amount, itemTotalPrice }: Car
         <p>{name}</p>
         <ActionsCartWrapper>
           <Counter>
-            <MinusIcon size={16} weight="bold" onClick={handleIncreaseAmount} />
+            <MinusIcon size={16} weight="bold" onClick={handleDecreaseQuantity} />
             <p>{amount}</p>
-            <PlusIcon size={16} weight="bold" onClick={handleDecreaseAmount} />
+            <PlusIcon size={16} weight="bold" onClick={handleIncreaseQuantity} />
           </Counter>
           <button className="delete-button" onClick={handleDelete} >
             <DeleteIcon size={16} />
@@ -36,7 +39,7 @@ export function ProductSelected({ id, name, image, amount, itemTotalPrice }: Car
         </ActionsCartWrapper>
       </DetailsWrapper>
       <strong>R$ 
-        <span>{itemTotalPrice.toFixed(2)}</span>
+        <span>{formatMoney(itemTotalPrice)}</span>
       </strong>
     </ProductContainer>
   )

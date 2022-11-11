@@ -1,13 +1,15 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 
-import { Tag } from "../../components/Tag";
-import { CartContext, CartTypes } from "../../contexts/CartContext";
-import { DataProps } from "../../types/data";
+import { CartContext, CartTypes } from "../../../../contexts/CartContext";
+import { DataProps } from "../../../../types/data";
+import { formatMoney } from "../../../../utils/formatMoney";
+import { Tag } from "../Tag";
 
 import { CardContainer, DescriptionWrapper, CartWrapper, PriceWrapper, ActionsWrapper, ShopCartWrapper, CounterWrapper, TagWrapper, MinusIcon, PlusIcon, ShoppingCartIcon, CoffeeImage } from "./styles";
 
 export function Card({ id, name, image, description, tags, price }: DataProps, { itemTotalPrice }: CartTypes) {
-  const { addItemsToCart, amountItems, increaseAmount, decreaseAmount } = useContext(CartContext)
+  const { addItemsToCart } = useContext(CartContext)
+  const [amountItem, setAmountItem] = useState(1)
   
   const handleAdd = () => {
     addItemsToCart({
@@ -15,18 +17,20 @@ export function Card({ id, name, image, description, tags, price }: DataProps, {
       name: name,
       image: image,
       tags: tags,
-      amount: amountItems,
+      amount: amountItem,
       price: price,
       itemTotalPrice: itemTotalPrice
     })
   }  
 
   const handleIncreaseAmount = () => {
-    increaseAmount(id)
+    setAmountItem(state => state + 1)
   }
 
   const handleDecreaseAmount = () => {
-    decreaseAmount(id)
+    if(amountItem > 1) {
+      setAmountItem(state => state - 1)
+    }
   }
 
   return (
@@ -49,11 +53,11 @@ export function Card({ id, name, image, description, tags, price }: DataProps, {
         <p>{description}</p>
       </DescriptionWrapper> 
       <CartWrapper>
-        <PriceWrapper><span>R$ </span>{price.toFixed(2)}</PriceWrapper>
+        <PriceWrapper><span>R$ </span>{formatMoney(price)}</PriceWrapper>
         <ActionsWrapper>
           <CounterWrapper>
             <MinusIcon size={16} weight="bold" onClick={handleDecreaseAmount} />
-            <p>{amountItems}</p>
+            <p>{amountItem}</p>
             <PlusIcon size={16} weight="bold" onClick={handleIncreaseAmount} />
           </CounterWrapper>
           <ShopCartWrapper onClick={handleAdd}>

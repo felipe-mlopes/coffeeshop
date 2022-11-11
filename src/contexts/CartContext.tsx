@@ -1,4 +1,5 @@
 import { createContext, ReactNode, useState } from "react";
+import { FormTypes } from "../pages/Checkout";
 import { DataProps } from "../types/data";
 
 interface CartContextProps {
@@ -16,25 +17,27 @@ interface ItemsTypes {
   addItemsToCart: (data: CartTypes) => void,
   handleFetchStorageCart: () => void,
   deleteItemToCart: (id: number) => void,
-  amountItems: number,
-  setAmountItems: (newAmount: number) => void,
-  increaseAmount: (id: number) => void,
-  decreaseAmount: (id: number) => void,
-  filterTagSelected: (types: string[]) => void,
+  increaseItemQuantity: (cartItemId: number) => void,
+  decreaseItemQuantity: (id: number) => void,
   tagSelected: string[],
-  setTagSelected: (type: string[]) => void
+  setTagSelected: (type: string[]) => void,
+  filterTagSelected: (type: string) => void,
+  addressData: FormTypes,
+  setAddressData: (data: FormTypes) => void
 }
 
 export const CartContext = createContext({} as ItemsTypes)
 
 export function CartContextProvider({ children }: CartContextProps) {
   const [cart, setCart] = useState<CartTypes[]>([])
-  const [amountItems, setAmountItems] = useState(1)
-  const [tagSelected, setTagSelected] = useState([])
+  const [tagSelected, setTagSelected] = useState([''])
+  const [addressData, setAddressData] = useState<FormTypes>()
 
   async function addItemsToCart(data: CartTypes) {
     const itemAlreadyInCart = cart.find(item => item.id === data.id)
+
     const totalPrice = data.price * data.amount
+
     const newCart: CartTypes = {
       id: data.id,
       name: data.name,
@@ -55,7 +58,7 @@ export function CartContextProvider({ children }: CartContextProps) {
     } else {
       const updateCart = cart.map(item => item.id === data.id ? {
         ...item,
-        amount: item.amount + amountItems
+        amount: item.amount + data.amount
       } : item)
       
       setCart(updateCart)
@@ -80,35 +83,44 @@ export function CartContextProvider({ children }: CartContextProps) {
     setCart(newData)
   }
 
-  function increaseAmount(id: number) {
-    cart.map(item => item.id === id) && setAmountItems(state => { return state + 1 })
+  function increaseItemQuantity(cartItemId: number) {
+    const updateCart = cart.map(item => item.id === cartItemId ? {
+      ...item,
+      amount: item.amount + 1
+    } : item)
+
+    setCart(updateCart)
+    localStorage.setItem('itemsToCart', JSON.stringify(updateCart))
   }
 
-  function decreaseAmount(id: number) {
-    if(amountItems > 1) {
-      cart.map(item => item.id === id) && 
-      setAmountItems(state => { return state - 1 })
-    }
+  function decreaseItemQuantity(cartItemId: number) {
+    const updateCart = cart.map(item => (item.id === cartItemId && item.amount > 1) ? {
+      ...item,
+      amount: item.amount - 1
+    } : item)
+
+    setCart(updateCart)
+    localStorage.setItem('itemsToCart', JSON.stringify(updateCart))
   }
 
-  function filterTagSelected(types: string[]) {
-    setTagSelected(state => [...state, types])
+  function filterTagSelected(type: string) {
+    setTagSelected(state => [...state, type])
   }
 
   return (
     <CartContext.Provider value={{ 
       cart, 
       setCart, 
-      addItemsToCart, 
-      handleFetchStorageCart, 
+      addItemsToCart,
+      handleFetchStorageCart,  
       deleteItemToCart,
-      amountItems,
-      setAmountItems,
-      increaseAmount,
-      decreaseAmount,
-      filterTagSelected,
+      increaseItemQuantity,
+      decreaseItemQuantity,
       tagSelected,
-      setTagSelected
+      setTagSelected,
+      filterTagSelected,
+      addressData,
+      setAddressData
       }} >
       {children}
     </CartContext.Provider>

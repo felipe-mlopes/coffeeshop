@@ -1,7 +1,6 @@
 import styled from "styled-components";
-import { Bank, CreditCard, CurrencyDollar, MapPinLine, Money } from "phosphor-react";
 
-export const ChecoutContainer = styled.main`
+export const CheckoutContainer = styled.main`
   display: flex;
   gap: 2rem;
   padding: 2.5rem 10rem;
@@ -13,7 +12,7 @@ export const ChecoutContainer = styled.main`
     margin-bottom: .9375rem;
   }
 `
-export const CheckoutWrapper = styled.div`
+export const CheckoutWrapper = styled.form`
   display: flex;
   flex-direction: column;
   gap: .75rem;
@@ -39,149 +38,6 @@ const CheckoutHeader = styled.div`
       color: var(--base-text);
     }
   }
-`
-
-export const AddressForm = styled(CheckoutHeader)`
-  form {
-      display: grid;
-      grid-template-columns: 35% 50% 10%;
-      grid-template-areas: 
-      "zipcode . ."
-      "address address address"
-      "number complement complement"
-      "district city uf"
-      ;
-      gap: 1rem;
-      padding-top: 2rem;
-
-      input {
-        padding: .75rem;
-        width: 100%;
-        background: var(--base-input);
-        border: 1px solid var(--base-button);
-        border-radius: 4px;
-
-        ::placeholder {
-          font-size: .875rem;
-          font-weight: 400;
-          color: var(--base-label);
-        }
-
-        :focus {
-          outline: 0;
-          font-size: .875rem;
-          font-weight: 400;
-          color: var(--base-text);
-        }
-      }
-
-      label {
-        display: flex;
-        flex-direction: column;
-
-        span {
-          position: relative;
-          top: -29px;
-          left: 320px;
-
-          font-style: italic;
-          font-weight: 400;
-          font-size: .75rem;
-          color: var(--base-label);
-        }
-      }
-
-      .zipcode {
-        grid-area: zipcode;
-      }
-
-      .address {
-        grid-area: address;
-      }
-
-      .number {
-        grid-area: number;
-      }
-
-      .complement {
-        grid-area: complement;
-
-      }
-
-      .district {
-        grid-area: district;
-      }
-
-      .city {
-        grid-area: city;
-      }
-
-      .uf {
-        grid-area: uf;
-      }
-  }
-`
-
-export const MapPinLineIcon = styled(MapPinLine)`
-  color: var(--yellow-dark);
-`
-
-export const Billing = styled(CheckoutHeader)`
-  main {
-    display: flex;
-    align-items: center;
-    gap: .75rem;
-    padding-top: 2rem;
-  }
-  
-  button {
-    display: flex;
-    align-items: center;
-    padding: 1rem 1.23rem 1rem 1rem;
-    gap: .75rem;
-
-    background: ${props => props.className === 'actived' ? 'var(--purple-light)' : 'var(--base-button)'};
-    border: 1px solid ${props => props.className === 'actived' ? 'var(--purple)' : 'transparent'};
-    border-radius: 6px;
-
-    font-size: .75rem;
-    font-weight: 400;
-    white-space: nowrap;
-    text-transform: uppercase;
-    color: var(--base-text);
-    
-    cursor: pointer;
-
-    :hover {
-      background: var(--base-hover);
-      color: var(--base-subtitle);
-    }
-
-    :active {
-      background: var(--purple-light);
-      border: 1px solid var(--purple);
-    }
-
-    :last-child {
-      padding-right: calc(1rem + 3.98rem);
-    }
-  }
-`
-
-export const DollarIcon = styled(CurrencyDollar)`
-  color: var(--purple);
-`
-
-export const CreditCardIcon = styled(CreditCard)`
-  color: var(--purple);
-`
-
-export const BankIcon = styled(Bank)`
-  color: var(--purple);
-`
-
-export const MoneyIcon = styled(Money)`
-  color: var(--purple);
 `
 
 export const CartShopWrapper = styled.div`
