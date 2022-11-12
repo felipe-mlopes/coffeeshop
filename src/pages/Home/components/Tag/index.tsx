@@ -6,7 +6,7 @@ import { TagContainer } from "./styles";
 export const tagsName = ['tradicional', 'especial', 'com leite', 'alcoólico', 'gelado']
 
 export interface TagProps {
-  type: 'tradicional' | 'especial' | 'com leite' | 'alcoólico' | 'gelado',
+  type: string,
   variant: 'tagCard' | 'tagFilter'
 }
 

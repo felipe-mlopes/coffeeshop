@@ -1,5 +1,6 @@
 import { createContext, ReactNode, useState } from "react";
 import { FormTypes } from "../pages/Checkout";
+import { paymentMethods } from "../pages/Checkout/components/PaymentsTypes";
 import { DataProps } from "../types/data";
 
 interface CartContextProps {
@@ -8,7 +9,7 @@ interface CartContextProps {
 
 export interface CartTypes extends DataProps {
   amount: number,
-  itemTotalPrice?: number
+  itemTotalPrice: number
 }
 
 interface ItemsTypes {

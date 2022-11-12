@@ -92,8 +92,8 @@ export function Home() {
             {tagsName.map(item => {
               return (
                 <Tag
-                  key={item} 
-                  type={item}
+                  key={item}
+                  type={item} 
                   variant='tagFilter'
                 />
               )
